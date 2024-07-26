@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-# Student ID: skarki28
 
+# lab7b.py
 class Time:
-    """Simple object type for time of the day.
-       data attributes: hour, minute, second
-    """
+    """Simple object type for time of the day."""
     def __init__(self, hour=12, minute=0, second=0):
-        """constructor for time object"""
         self.hour = hour
         self.minute = minute
         self.second = second
@@ -21,23 +18,47 @@ def sum_times(t1, t2):
     sum.hour = t1.hour + t2.hour
     sum.minute = t1.minute + t2.minute
     sum.second = t1.second + t2.second
-    
-    # Handle carryover for seconds and minutes
+
+    # Handle carry over for seconds
     if sum.second >= 60:
         sum.minute += sum.second // 60
         sum.second = sum.second % 60
+
+    # Handle carry over for minutes
     if sum.minute >= 60:
         sum.hour += sum.minute // 60
         sum.minute = sum.minute % 60
 
+    # Handle carry over for hours (if necessary)
+    if sum.hour >= 24:
+        sum.hour = sum.hour % 24
+
     return sum
 
 def valid_time(t):
-    """Check for the validity of the time object attributes:
-       24 > hour >= 0, 60 > minute >= 0, 60 > second >= 0
-    """
+    """Check for the validity of the time object attributes."""
     if t.hour < 0 or t.minute < 0 or t.second < 0:
         return False
     if t.minute >= 60 or t.second >= 60 or t.hour >= 24:
         return False
     return True
+
+def change_time(time, seconds):
+    """Change the time by adding seconds."""
+    time.second += seconds
+    while time.second >= 60:
+        time.second -= 60
+        time.minute += 1
+    while time.second < 0:
+        time.second += 60
+        time.minute -= 1
+    while time.minute >= 60:
+        time.minute -= 60
+        time.hour += 1
+    while time.minute < 0:
+        time.minute += 60
+        time.hour -= 1
+    while time.hour >= 24:
+        time.hour -= 24
+    while time.hour < 0:
+        time.hour += 24
